@@ -5,6 +5,7 @@ public class GamblingSimulator {
 	public static final int STARTING_STAKE = 100;
 	public static final int EVERY_GAME_BET = 1;
 	public static final int DAYS_PLAYED = 30;
+	public static final int MONTHS_PLAYED = 12;
 	public static int currentStake;
 	
 	//uc2 - As a Gambler make $1 bet so either win or loose $1
@@ -67,26 +68,29 @@ public class GamblingSimulator {
 	}
 	
 	//uc6
+	//uc6
 	public static void luckiestAndUnluckiestDay() {
-		int maxWinnings=0, maxLost=0, luckiestDay=0, unluckiestDay=0;
-		for (int i = 1; i <= DAYS_PLAYED; i++) {
-			currentStake = STARTING_STAKE;
-			checkResignGame();
-			if(currentStake >= STARTING_STAKE*1.5) {
-				if(maxWinnings < (currentStake-STARTING_STAKE)) {
-					luckiestDay=i;
-					maxWinnings = currentStake-STARTING_STAKE;
-				}
+		int totalEarning, maxWinnings=0, minWinnings=9999, luckiestMonth=0, unluckiestMonth=0;
+		for (int i=1; i<= MONTHS_PLAYED; i++) {
+			totalEarning=0;
+			for (int j = 1; j <= DAYS_PLAYED; j++) {
+				currentStake = STARTING_STAKE;
+				checkResignGame();
+				totalEarning+=currentStake;
 			}
-			else {
-				if(maxLost < (STARTING_STAKE-currentStake)) {
-					unluckiestDay=i;
-					maxLost = STARTING_STAKE-currentStake;
-				}
+			System.out.println("Total Winnings for Month "+i+" is "+totalEarning);
+			if(maxWinnings<totalEarning) {
+				luckiestMonth = i;
+				maxWinnings=totalEarning;
 			}
+			if(minWinnings>totalEarning) {
+				unluckiestMonth = i;
+				minWinnings=totalEarning;
+			}
+				
 		}
-		System.out.println("Luckiest Day : Day "+luckiestDay);
-		System.out.println("Unluckiest Day : Day "+unluckiestDay);
+		System.out.println("Luckiest Month : Month "+luckiestMonth);
+		System.out.println("Unluckiest Month : Month "+unluckiestMonth);
 	}
 	
 	//uc7
